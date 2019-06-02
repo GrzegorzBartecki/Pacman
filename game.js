@@ -19,6 +19,7 @@
 			};
 			
 			var punkty = 0;
+			var a = null;
 			
 			function displayMap()
 			{ // funkcja budujaca mape
@@ -49,11 +50,24 @@
 				document.getElementById('pacman').style.left = pacman.x*50+"px"; // ustawienie pacmana w pozycji w poziomie (x)*wymiar diva
 			}
 			
+			function turnPacman(a)
+			{				
+				document.getElementById('pacman').style.transform = a;
+			}
+			function diePacman()
+			{
+				document.getElementById('pacman').style.display = "none";
+				document.onkeydown = null;
+				alert('ODSWIEZ I ZAGRAJ PONOWNIE')
+				console.log(dokument.onkeydown);				
+			}
+			
 			function pokazWynik()
 			{ 
 				document.getElementById('wynik').innerHTML = punkty; // punktacja
 			}
 			
+
 			displayMap(); 
 			displayPacman();
 			pokazWynik();
@@ -64,25 +78,26 @@
 				if(e.keyCode == 37 && map[pacman.y][pacman.x-1] != 2) //wykonaj jezeli wcisniecie lewej strzalki nie wskaze na sciane
 					{ // when left arrow key is pressed
 						pacman.x--; 																			// zmniejsz wspolrzedna x pacmana
-						document.getElementById('pacman').style.transform = "rotate(-180deg)"; // zmiana stylu o obrot
+						/* bez funkcji - > document.getElementById('pacman').style.transform = "rotate(-180deg)"; */ // zmiana stylu o obrot
+						turnPacman("rotate(-180deg)");
 					}
 				else if(e.keyCode == 39 && map[pacman.y][pacman.x+1] != 2) //wykonaj jezeli wcisniecie prawejj strzalki nie wskaze na sciane
 					{ 
 						pacman.x++; 																					// zwieksz wspolrzedna x pacmana
-						document.getElementById('pacman').style.transform = "rotate(0deg)"; 
+						turnPacman("rotate(0deg)"); 
 					}
 				if(e.keyCode == 40 && map[pacman.y+1][pacman.x] != 2)
 					{ 
 						pacman.y++; 
-						document.getElementById('pacman').style.transform = "rotate(90deg)"; 
+						turnPacman("rotate(90deg)"); 
 					} 
 				else if(e.keyCode == 38 && map[pacman.y-1][pacman.x] != 2)
 					{ 
 						pacman.y--; 
-						document.getElementById('pacman').style.transform = "rotate(-90deg)"; 
+						turnPacman("rotate(-90deg)"); 
 					}
 				
-				if(map[pacman.y][pacman.x] == 1)  //jezeli wspolrzedna pacmana wskazuje na miejsce z moneta  to ustaw puste
+				if(map[pacman.y][pacman.x] == 1)  //jezeli wspolrzedna pacmana wskazuje na miejsce z moneta  to ustaw puste odaj punkty
 					{  
 						map[pacman.y][pacman.x] = 0; 
 						punkty += 10;
@@ -91,13 +106,20 @@
 					} 
 				else if (map[pacman.y][pacman.x] == 3) 
 					{
-							map[pacman.y][pacman.x] = 0
-							punkty += 50;
+						map[pacman.y][pacman.x] = 0
+						punkty += 50;
 						pokazWynik();
-						displayMap();						
-						
+						displayMap();	
 					}
-					displayPacman();
+					if (map[pacman.y][pacman.x] == 4)
+					{
+						map[pacman.y][pacman.x] = 0;
+						punkty = 0;
+						pokazWynik();
+						displayMap();
+						diePacman();
+					}	
+			displayPacman();
 			}
 			
 		
