@@ -4,6 +4,7 @@
 		<meta charset="UTF-8">
 		<meta name="description" content="This is a Pacman Demo using HTML, CSS and Javascript!">
 		<title>Pacman Demo</title>
+		<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.css">  <!-- normalizes CSS & HTML -->
 		<link rel="stylesheet" href="main.css">
 	</head>
@@ -11,9 +12,12 @@
 		<div id='container'>
 			<div id='world'></div>
 			<div id='pacman'></div>	
+			<div id='ghost1'></div>
 			<div class= 'punktacja' > punktacja	
 				<div id='wynik'>0</div>
 			</div>
+			<div id="gameover"></div>  
+			<div id="wingame"></div> 
 		</div>
 		<script src="game.js"></script>
 	</body>
