@@ -8,20 +8,16 @@
 								[2,1,2,1,2,2,3,2,2,1,1,1,2], 
 								[2,1,2,1,1,1,1,1,1,1,2,1,2], 
 								[2,1,2,2,1,2,2,1,2,2,2,1,2], 
-								[2,1,1,1,1,1,2,1,1,1,1,4,2], 
+								[2,1,1,1,1,1,2,1,1,1,1,1,2], 
 								[2,2,2,2,2,2,2,2,2,2,2,2,2]
 								]
 			
-			var pacman = 
-			{  // ustawienie pozycji pacmana
-				x: 1,
-				y: 1
-			};
-			
+			var pacman={x:1,y:1};// ustawienie pozycji pacmana
+			var ghost1 = {x:11,y:6};			
 			var punkty = 0;
 			var a = null;
 			
-			function displayMap()
+			function displayMap() 
 			{ // funkcja budujaca mape
 				var output = ''; // kasowanie nieaktualnej mapy
 				for (var i=0; i<map.length; i++) 
@@ -36,17 +32,17 @@
 							output += "<div class='cherry'></div>"; 	
 						if (map[i][j] == 0) // wstawianie pustego pola
 							output += "<div class='ground'></div>";	
-						if(map[i][j] == 4)			//wstawianie duszka
-							output += "<div class='ghost1'></div>";							
-					}
-					output += "\n</div>"; // przypisanie divow do zmiennej
-				}				
-				document.getElementById('world').innerHTML = output; // aktualizacja wygladu mapy
+						/* if(map[i][j] == 4)			//wstawianie duszka
+							output += "<div class='ghost1'></div>";	 */						
+					}// przypisanie divow do zmiennej
+					output += "\n</div>";
+				}/* document.getElementById('world').innerHTML = output; // aktualizacja wygladu mapy */
+				$('#world').html(output);
 			} 
 			
 			function displayPacman()
 			{ // creates our pacman function
-				document.getElementById('pacman').style.top = pacman.y*50+"px"; // ustawienie pacmana w pozycji w pionie (y)*wymiar diva
+				document.getElementById('pacman').style.top = pacman.y*50+"px";// ustawienie pacmana w pozycji w pionie (y)*wymiar diva				
 				document.getElementById('pacman').style.left = pacman.x*50+"px"; // ustawienie pacmana w pozycji w poziomie (x)*wymiar diva
 			}
 			
@@ -54,23 +50,40 @@
 			{				
 				document.getElementById('pacman').style.transform = a;
 			}
-			function diePacman()
+			
+			function koniecGry()
 			{
-				document.getElementById('pacman').style.display = "none";
-				document.onkeydown = null;
-				alert('ODSWIEZ I ZAGRAJ PONOWNIE')
-				console.log(dokument.onkeydown);				
+				if ((pacman.y == ghost1.y) && (pacman.x == ghost1.x))
+				{						
+					punkty = 0;
+					document.getElementById('pacman').style.display = "none";
+					document.onkeydown = null;
+					$('#gameover').fadeIn();
+					/* alert('ODSWIEZ I ZAGRAJ PONOWNIE'); */
+				}	
+				if(punkty===600)
+					{
+					document.onkeydown = null;	
+					clearInterval(intervalId);					
+					$('#wingame').fadeIn();
+					}
+			}			
+			
+			function displayGhost()
+			{
+				document.getElementById('ghost1').style.top = ghost1.y*50+"px";
+				document.getElementById('ghost1').style.left = ghost1.x*50+"px";				
 			}
 			
 			function pokazWynik()
 			{ 
 				document.getElementById('wynik').innerHTML = punkty; // punktacja
-			}
+			}			
 			
-
-			displayMap(); 
+			/* displayMap(); 
 			displayPacman();
-			pokazWynik();
+			displayGhost();
+			pokazWynik(); */
 
 			
 			document.onkeydown = function(e)
@@ -97,7 +110,7 @@
 						turnPacman("rotate(-90deg)"); 
 					}
 				
-				if(map[pacman.y][pacman.x] == 1)  //jezeli wspolrzedna pacmana wskazuje na miejsce z moneta  to ustaw puste odaj punkty
+				if(map[pacman.y][pacman.x] == 1)  //jezeli wspolrzedna pacmana wskazuje na miejsce z moneta  to ustaw puste i dodaj punkty
 					{  
 						map[pacman.y][pacman.x] = 0; 
 						punkty += 10;
@@ -110,19 +123,80 @@
 						punkty += 50;
 						pokazWynik();
 						displayMap();	
-					}
-					if (map[pacman.y][pacman.x] == 4)
-					{
-						map[pacman.y][pacman.x] = 0;
-						punkty = 0;
+					}					
 						pokazWynik();
 						displayMap();
-						diePacman();
-					}	
-			displayPacman();
+						koniecGry();
+					
+				displayPacman();
+			}
+						
+			function losujKierunek()
+			{
+				var random = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+				return random;
 			}
 			
+			var obecnyKierunek = 1;
+			
+			function ghostMove()
+			{
+					var nowyKierunek = losujKierunek();	
+											//Left Right New Direction
+				if(												
+					((obecnyKierunek == 1 || obecnyKierunek == 2) && //If it's going right or left	and up or down is available
+					(map[ghost1.y+1][ghost1.x]!==2 || //dostepny kierunek w dol
+					map[ghost1.y-1][ghost1.x]!==2 ||//dostepny kierunek w gora
+					map[ghost1.y][ghost1.x-1]!==2 ||//dostepny kierunek w lewo - bo zacina sie po dojscia do konca
+					map[ghost1.y][ghost1.x+1]!==2 ))//dostepny kierunek w prawo
+					|| 																					
+					((obecnyKierunek == 3 || obecnyKierunek == 4) && //Or if it's going up or down and left or right is available
+					(map[ghost1.y][ghost1.x+1]!==2 || 		
+					map[ghost1.y][ghost1.x-1]!==2 ))
+				   )
+				{					
+					while(nowyKierunek == obecnyKierunek)		//Check to make sure it won't change direction to it's current direction
+					{
+						nowyKierunek = losujKierunek();
+					}					
+					obecnyKierunek = nowyKierunek;					//Change direction to a new direction
+				}
 		
+				if(obecnyKierunek ==  1 && 
+					(map[ghost1.y][ghost1.x-1]!==2))
+					{
+						ghost1.x --;													//        console.log("move left")
+					}
+				else if(obecnyKierunek == 2 && 
+					(map[ghost1.y][ghost1.x+1]!==2))
+					{			
+						ghost1.x ++;													//        console.log("move right")
+					}
+				else if(obecnyKierunek == 3 && 
+					(map[ghost1.y-1][ghost1.x]!==2))
+					{			
+						ghost1.y --;														//        console.log("move up")
+					}
+				else if(obecnyKierunek == 4 && 
+					(map[ghost1.y+1][ghost1.x]!==2))
+					{			
+						ghost1.y ++;													//        console.log("move down")
+					}
+				displayGhost();
+				koniecGry();
+			}			
+						
+				var intervalId=setInterval(ghostMove, 250)
+			
+			$(document).ready(function(){displayMap();
+															   displayPacman();
+															   displayGhost();
+															   pokazWynik();
+															   koniecGry();
+															   })	
 		
+
+		
+
 
 		
