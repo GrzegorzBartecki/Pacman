@@ -36,5 +36,49 @@ div.cherry {
 	background-size: contain;
 }
 
+div.ground {
+	background-color: #000000;			
+}
 
+div.ghost1{
+	background: url('images/ghost-purple.gif');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 175%;
+}
 
+div#pacman {
+	background: url('images/pacman.gif');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	width: 50px;
+	height: 50px;
+	position: absolute;
+}
+
+div#wynik{
+	border: 1px solid white;	
+	font-size: 1.2em;
+	color: #000000;
+	padding: 15px 15px 10px 15px;
+	text-align: center;
+	font-weight: bold;
+	margin: 10px;
+	
+}
+
+.punktacja{
+	border: 1px solid black;	
+	font-size: 1.2em;
+	color: #000000;
+	padding: 10px 15px 0px 15px;
+	text-align: center;
+	font-weight: bold;
+	margin: 10px;
+	position: absolute;
+	top:0px;
+	left: 650px;
+	width: 100px;
+	
+}
