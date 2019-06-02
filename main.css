@@ -40,11 +40,14 @@ div.ground {
 	background-color: #000000;			
 }
 
-div.ghost1{
+div#ghost1{
 	background: url('images/ghost-purple.gif');
 	background-repeat: no-repeat;
 	background-position: center;
-	background-size: 175%;
+	background-size: contain;
+	width: 50px;
+    height: 50px;
+    position: absolute;
 }
 
 div#pacman {
@@ -79,6 +82,30 @@ div#wynik{
 	position: absolute;
 	top:0px;
 	left: 650px;
-	width: 100px;
-	
+	width: 100px;	
+}
+
+#gameover{
+    background-image: url('images//gameover.jpg');
+    background-size: cover;
+    background-position: center;
+    border: 30px solid red;
+    width: 590px;
+    height: 390px;
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+#wingame{
+    background-image: url('images//wingame.png');
+    background-size: cover;
+    background-position: center;
+    border: 30px solid green;
+    width: 590px;
+    height: 390px;
+    display: none;
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
