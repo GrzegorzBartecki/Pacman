@@ -1,0 +1,40 @@
+body {
+	background-color: #ffffcc;
+	margin: 0px;
+}
+
+#container {
+	background-color: #000000;
+	width: 650px;
+	height: 450px;
+}
+
+div.row {
+	height: 50px;
+}
+div.row div {
+	width: 50px;
+	height: 50px;
+	display: inline-block;
+}
+
+div.brick {
+	background: url('images/wall1.png');			
+}
+
+div.coin {
+	background: url('images/coin.gif');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 40%;
+}
+
+div.cherry {
+	background: url('images/cherries.gif');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+}
+
+
+
